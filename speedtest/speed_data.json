@@ -1,0 +1,11 @@
+{
+    "measurement" : "internet_speed",
+    "tags" : {
+        "host": "RaspberryPiMyLifeUp"
+    },
+    "fields" : {
+        "download": "float(download)",
+        "upload": "float(upload)",
+        "ping": "float(ping)"
+    }
+}
