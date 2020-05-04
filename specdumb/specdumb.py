@@ -3,18 +3,19 @@ import sys
 from twython import Twython
 from influxdb import InfluxDBClient
 from datetime import date
+import configparser
 
-#Define our constant variables, this is all the data we wrote down in the first part of the tutorial.
-API_KEY = '***REMOVED***'
-API_SECRET = '***REMOVED***'
-ACCESS_KEY = '***REMOVED***'
-ACCESS_SECRET = '***REMOVED***'
+config = configparser.ConfigParser()
+config.read('../config.ini')
+
+twitter_c = config['twitter']
+influxdb_c = config['influxdb']
 
 #Create a copy of the Twython object with all our keys and secrets to allow easy commands.
-api = Twython(API_KEY,API_SECRET,ACCESS_KEY,ACCESS_SECRET) 
+api = Twython(twitter_c['API_KEY'],twitter_c['API_SECRET'],twitter_c['ACCESS_KEY'],twitter_c['ACCESS_SECRET'])
 
 #Create DB client
-client = InfluxDBClient('localhost', ***REMOVED***, 'pi', '<password>', 'internetspeed')
+client = InfluxDBClient(influxdb_c['HOST'], influxdb_c['PORT'], influxdb_c['USER'], influxdb_c['PASS'], influxdb_c['DATABASE'])
 
 rs = client.query('SELECT * FROM "internet_speed" WHERE time >= now() - 24h;')
 daily_points = list(rs.get_points())
