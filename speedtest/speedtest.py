@@ -2,9 +2,12 @@ import re
 import subprocess
 from influxdb import InfluxDBClient
 import configparser
+from os.path import dirname, abspath
+
+project_root = dirname(dirname(abspath(__file__)))
 
 config = configparser.ConfigParser()
-config.read('../config.ini')
+config.read(project_root + '/config.ini')
 
 influxdb_c = config['influxdb']
 

@@ -4,9 +4,12 @@ from twython import Twython
 from influxdb import InfluxDBClient
 from datetime import date
 import configparser
+from os.path import dirname, abspath
+
+project_root = dirname(dirname(abspath(__file__)))
 
 config = configparser.ConfigParser()
-config.read('../config.ini')
+config.read(project_root + '/config.ini')
 
 twitter_c = config['twitter']
 influxdb_c = config['influxdb']
