@@ -1,0 +1,2 @@
+twython==3.8.2
+influxdb==5.3.0
