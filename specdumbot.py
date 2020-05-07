@@ -38,12 +38,12 @@ def sendTweet(db_client, tw_client):
 
   tweet_text = """Average Internet Speed metrics for {0} (Queens, NY):
 
-  Download: {1} Mbit/s
-  Upload: {2} Mbit/s
-  Ping: {3} ms
+Download: {1} Mbit/s
+Upload: {2} Mbit/s
+Ping: {3} ms
 
-  @GetSpectrum
-  #spectrum #specdumb #internetSpeed #speedTest""".format(measurements_date, download_avg, upload_avg, ping_avg)
+@GetSpectrum
+#spectrum #specdumb #internetSpeed #speedTest""".format(measurements_date, download_avg, upload_avg, ping_avg)
 
   # update twitter status
   tw_client.update_status(status=tweet_text)
