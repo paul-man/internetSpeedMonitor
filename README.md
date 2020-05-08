@@ -1,39 +1,42 @@
-# internetSpeedMonitor
-Project running on linux used to monitor the network speed and tweet the details (WIP)
+internetSpeedMonitor
+======
+###### Open a pull request with a better name
 
-## Prerequisites
+This project is twofold -- periodically test and store internet speed metrics in InfluxDB, and tweet the average measurements out daily.
 
-- Python 3.7.X
-- Local InfluxDB setup to accept internet speed measurement data
+For the speed tests a Python library called speedtest-cli is used to calculate download (Mbit/s), upload (Mbit/s), and ping (ms)
 
-    TODO: add influxdb setup
+## Requirements
+- Python 3.X.X + pip
+    - [speedtest-cli][1]
+    - [Twython][2]
+    - [InfluxDB][3]
+- Local InfluxDB
 - Twitter dev account
-
-    TODO: add twitter bot setup
-- Install dependencies within `requirements.txt`
-- Add twitter + influx data to `config.ini` 
 
 ## Usage
 
-`python3 speedmonitor.py --tweet`
-- Queries the configured InfluxDB for measurements within passed 24 hours
-- Calculates averages for each metric
-- Creates and posts tweet to configured account
+
+- Add twitter API credentials + Influx client data to `config.ini`
+- `$ pip3 install requirements.txt`
+
+    Install Python requirements
+- `python3 speedmonitor.py --speedtest`
+    
+    Executes `speedtest-cli` and stores `download, upload, ping` data to configured InfluxDB
+- `python3 speedmonitor.py --tweet`
+    
+    Queries InfluxDB and tweets the average for each metric (download, upload, ping) for measurements within passed 24 hours
 _____
 
-`python3 speedmonitor.py --speedtest`
-- Executes `speedtest-cli` and stores `download, upload, ping` data to configured InfluxDB
-
-
 ## Cron setup
-
-You'll need data throughout the dat which is why setting up a cron job is useful. You can edit your system's crontab directly or run the following command. The job will be run every 15 minutes for as long as the server is running.
+You'll need data throughout the day which is why we'll use cron jobs to run our script every 15 minutes. You can add your own using `sudo crontab -e` or run the following command:
 ```
 $> (crontab -u userhere -l; echo "*/15 * * * * python3 /<path/to>/speedmonitor.py --speedtest" ) | crontab -u <user> -
 ```
 _____
 
-The tweet can also be scheduled. The following cron job will run the command everyday at 8 PM (20:00). `0 20` means 0 minutes and 20 hours.
+You can schedule the tweet to be sent at 8 PM using this command:
 ```
 $> (crontab -u userhere -l; echo "0 20 * * * python3 /<path/to>/speedmonitor.py --tweet" ) | crontab -u <user> -`
 ```
@@ -45,3 +48,8 @@ $> (crontab -u userhere -l; echo "0 20 * * * python3 /<path/to>/speedmonitor.py 
   - [ ] influxdb
   - [ ] python dependancies
   - [ ] twitter bot?
+
+
+[1]: https://github.com/sivel/speedtest-cli
+[2]: https://github.com/ryanmcgrath/twython
+[3]: https://github.com/influxdata/influxdb-python
