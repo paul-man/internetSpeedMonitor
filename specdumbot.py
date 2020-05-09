@@ -15,35 +15,50 @@ def sendTweet(db_client, tw_client):
 
   # TODO: improve average calculation
   # init average data values
-  download_count, download_sum = 0, 0
+  download_count, download_sum , dowload_dip_count = 0, 0, 0
   upload_count, upload_sum = 0, 0
   ping_count, ping_sum = 0, 0
+  download_low, upload_low, ping_high = float("inf"), float("inf"), 0
 
   for point in daily_points:
     if point['download']: # skip empty datapoints
       download_count += 1
       download_sum += point['download']
+      if point['download'] < 200:
+        dowload_dip_count += 1
+      if point['download'] < download_low:
+        download_low = point['download']
     if point['upload']:
       upload_count += 1
       upload_sum += point['upload']
+      if point['upload'] < upload_low:
+        upload_low = point['upload']
     if point['ping']:
       ping_count += 1
       ping_sum += point['ping']
+      if point['ping'] > ping_high:
+        ping_high = point['ping']
 
-  download_avg = round(download_sum / download_count, 2)
-  upload_avg = round(upload_sum / upload_count, 2)
-  ping_avg = round(ping_sum / ping_count, 2)
+  download_avg = round(download_sum / download_count, 1)
+  upload_avg = round(upload_sum / upload_count, 1)
+  ping_avg = round(ping_sum / ping_count, 1)
+
+  download_low = round(download_low, 1)
+  upload_low = round(upload_low, 1)
+  ping_high =  round(ping_high, 1)
 
   measurements_date = date.today().strftime("%B %d, %Y") # May 04, 2020
 
-  tweet_text = """Average Internet Speed metrics for {0} (Queens, NY):
+  tweet_text = """Internet Speed metrics for {0} (Queens, NY):
 
-Download: {1} Mbit/s
-Upload: {2} Mbit/s
-Ping: {3} ms
+Download (Mbit/s): Average {1}, Low {2}
+Upload (Mbit/s): Average {3}, Low {4}
+Ping (ms): Average {5}, High {6}
+
+Download speeds below 200 Mbit/s {7} times
 
 @GetSpectrum
-#spectrum #specdumb #internetSpeed #speedTest""".format(measurements_date, download_avg, upload_avg, ping_avg)
+#spectrum #specdumb #internetSpeed #speedTest""".format(measurements_date, download_avg, download_low, upload_avg, upload_low, ping_avg, ping_high, dowload_dip_count)
 
   # update twitter status
   tw_client.update_status(status=tweet_text)
