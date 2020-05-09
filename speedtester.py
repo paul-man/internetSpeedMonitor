@@ -2,18 +2,21 @@
 
 import re
 import subprocess
+import speedtest
 
 def runSpeedTest(db_client):
 
   # run speedtest tool and parse results
-  speedtest_response = subprocess.Popen('/usr/local/bin/speedtest-cli --simple', shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
-  ping = re.findall('Ping:\s(.*?)\s', speedtest_response, re.MULTILINE)
-  download = re.findall('Download:\s(.*?)\s', speedtest_response, re.MULTILINE)
-  upload = re.findall('Upload:\s(.*?)\s', speedtest_response, re.MULTILINE)
+  speedtester = speedtest.Speedtest()
+  speedtester.get_best_server()
+  speedtester.download()
+  speedtester.upload()
+  speedtester.results.share()
+  results_dict = speedtester.results.dict()
 
-  ping = ping[0].replace(',', '.')
-  download = download[0].replace(',', '.')
-  upload = upload[0].replace(',', '.')
+  download = results_dict['download']/1000000
+  upload = results_dict['upload']/1000000
+  ping = results_dict['ping']
 
   speed_measurement_data = [
       {
