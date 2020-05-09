@@ -12,8 +12,12 @@ For the speed tests a Python library called speedtest-cli is used to calculate d
     - [Twython][2]
     - [InfluxDB][3]
 - Local InfluxDB
+    - [Setting up InfluxDB on raspberryPi][4]
 - Twitter dev account
-
+    - [Setting up a Twitter bot on raspberryPi][4]
+    
+[4]: https://pimylifeup.com/raspberry-pi-influxdb/
+[5]: https://pimylifeup.com/raspberry-pi-twitter-bot/
 ## Usage
 
 
