@@ -12,12 +12,31 @@ For the speed tests a Python library called speedtest-cli is used to calculate d
     - [Twython][2]
     - [InfluxDB][3]
 - Local InfluxDB
+    - [Setting up InfluxDB on raspberryPi][4]
 - Twitter dev account
-
+    - [Setting up a Twitter bot on raspberryPi][4]
+    
+[4]: https://pimylifeup.com/raspberry-pi-influxdb/
+[5]: https://pimylifeup.com/raspberry-pi-twitter-bot/
 ## Usage
 
 
-- Add twitter API credentials + Influx client data to `config.ini`
+- Create `config.ini` and add twitter API credentials + Influx client data
+    ```
+    [twitter]
+    API_KEY = {API_KEY}
+    API_SECRET = {API_SECRET}
+    ACCESS_KEY = {ACCESS_KEY}
+    ACCESS_SECRET = {ACCESS_SECRET}
+
+    [influxdb]
+    HOST= localhost
+    PORT = 8086
+    USER = {INFLUX USER}
+    PASS = {INFLUX PASSWORD}
+    DATABASE = internetspeed
+    ```
+
 - `$ pip3 install requirements.txt`
 
     Install Python requirements
