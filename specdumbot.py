@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from datetime import date
+from textwrap import dedent
 
 def sendTweet(db_client, tw_client):
   # select all data from passed 24 hours
@@ -49,17 +50,21 @@ def sendTweet(db_client, tw_client):
 
   measurements_date = date.today().strftime("%B %d, %Y") # May 04, 2020
 
-  tweet_text = """Internet Speed metrics for {0} (Queens, NY):
+  tweet_text = f"""\
+  Internet Speed metrics for {measurements_date} (Queens, NY):
 
-Download (Mbit/s): Average {1}, Low {2}
-Upload (Mbit/s): Average {3}, Low {4}
-Ping (ms): Average {5}, High {6}
+  Download (Mbit/s): Average {download_avg}, Low {download_low}
+  Upload (Mbit/s): Average {upload_avg}, Low {upload_low}
+  Ping (ms): Average {ping_avg}, High {ping_high}
 
-Download speeds below 200 Mbit/s {7} times
+  Download speeds below 200 Mbit/s {dowload_dip_count} times
 
-@GetSpectrum
-#spectrum #specdumb #internetSpeed #speedTest""".format(measurements_date, download_avg, download_low, upload_avg, upload_low, ping_avg, ping_high, dowload_dip_count)
+  @GetSpectrum
+  #spectrum #specdumb #internetSpeed #speedTest\
+  """
 
+  tweet_text = dedent(tweet_text)
+  
   # update twitter status
   tw_client.update_status(status=tweet_text)
 
