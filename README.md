@@ -21,7 +21,22 @@ For the speed tests a Python library called speedtest-cli is used to calculate d
 ## Usage
 
 
-- Add twitter API credentials + Influx client data to `config.ini`
+- Create `config.ini` and add twitter API credentials + Influx client data
+    ```
+    [twitter]
+    API_KEY = {API_KEY}
+    API_SECRET = {API_SECRET}
+    ACCESS_KEY = {ACCESS_KEY}
+    ACCESS_SECRET = {ACCESS_SECRET}
+
+    [influxdb]
+    HOST= localhost
+    PORT = 8086
+    USER = {INFLUX USER}
+    PASS = {INFLUX PASSWORD}
+    DATABASE = internetspeed
+    ```
+
 - `$ pip3 install requirements.txt`
 
     Install Python requirements
