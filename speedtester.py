@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-import re
-import subprocess
 import speedtest
 
 def runSpeedTest(db_client):
