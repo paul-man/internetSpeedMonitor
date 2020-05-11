@@ -11,9 +11,8 @@ def runSpeedTest(db_client):
   speedtester.get_best_server()
   speedtester.download()
   speedtester.upload()
-  speedtester.results.share()
   results_dict = speedtester.results.dict()
-
+  
   download = results_dict['download']/1000000
   upload = results_dict['upload']/1000000
   ping = results_dict['ping']
