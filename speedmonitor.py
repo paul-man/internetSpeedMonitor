@@ -2,7 +2,6 @@
 
 import sys
 import re
-import subprocess
 import configparser
 from twython import Twython
 from influxdb import InfluxDBClient
