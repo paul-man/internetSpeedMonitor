@@ -43,3 +43,4 @@ def runSpeedTest(db_client):
     logs.write(f'{str(e)}\n')
     logs.write(f'{speed_measurement_data}\n')
     logs.close()
+    exit()

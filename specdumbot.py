@@ -8,13 +8,22 @@ now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 def sendTweet(db_client, tw_client):
   # select all data from passed 24 hours
-  results_set = db_client.query(
-    '''
+  try:
+    query = '''\
     SELECT download, upload, ping
     FROM internet_speed
-    WHERE time >= now() - 24h;
+    WHERE time >= now() - 24h;\
     '''
-  )
+    query = dedent(query)
+    results_set = db_client.query(query)
+  except Exception as e:
+    logs = open("./logs/tweet.log", "a+")
+    logs.write(f'\n** [ERROR][{now}] Unable to read from DB:\n')
+    logs.write(f'{str(e)}\n')
+    logs.write(f'"{query}"\n')
+    logs.close()
+    exit()
+
   daily_points = list(results_set.get_points())
 
   # init average data values
@@ -89,3 +98,4 @@ def sendTweet(db_client, tw_client):
     logs.write(f'{str(e)}\n')
     logs.write(f'"{tweet_text}"\n')
     logs.close()
+    exit()
