@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 
+import datetime
 from datetime import date
 from textwrap import dedent
+
+now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 def sendTweet(db_client, tw_client):
   # select all data from passed 24 hours
@@ -76,7 +79,13 @@ def sendTweet(db_client, tw_client):
   """
 
   tweet_text = dedent(tweet_text)
-  print(tweet_text)
+  
   # update twitter status
-  # tw_client.update_status(status=tweet_text)
-
+  try:
+    tw_client.update_status(status=tweet_text)
+  except Exception as e:
+    logs = open("./logs/tweet.log", "a+")
+    logs.write(f'\n** [ERROR][{now}] Unable to send tweet:\n')
+    logs.write(f'{str(e)}\n')
+    logs.write(f'"{tweet_text}"\n')
+    logs.close()
