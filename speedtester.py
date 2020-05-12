@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
-import re
-import subprocess
 import speedtest
+import datetime
+
+now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 def runSpeedTest(db_client):
 
@@ -11,9 +12,8 @@ def runSpeedTest(db_client):
   speedtester.get_best_server()
   speedtester.download()
   speedtester.upload()
-  speedtester.results.share()
   results_dict = speedtester.results.dict()
-
+  
   download = results_dict['download']/1000000
   upload = results_dict['upload']/1000000
   ping = results_dict['ping']
@@ -35,4 +35,12 @@ def runSpeedTest(db_client):
       }
   ]
 
-  db_client.write_points(speed_measurement_data)
+  try:
+    db_client.write_points(speed_measurement_data)
+  except Exception as e:
+    logs = open("./logs/speed.log", "a+")
+    logs.write(f'\n** [ERROR][{now}] Unable to write speed metrics:\n')
+    logs.write(f'{str(e)}\n')
+    logs.write(f'{speed_measurement_data}\n')
+    logs.close()
+    exit()
