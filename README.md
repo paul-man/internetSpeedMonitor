@@ -1,8 +1,8 @@
 internetSpeedMonitor
 ======
-###### Open a pull request with a better name
+###### Please open a pull request with a better name :D
 
-This project is twofold -- periodically test and store internet speed metrics in InfluxDB, and tweet the average measurements out daily. Cron is used to schedule the 2 separate jobs.
+This project is twofold -- periodically test and store internet speed metrics in InfluxDB, and tweet the average measurements out daily. Cron is used to schedule the 2 separate jobs. [Specdumb twitter account](https://twitter.com/specdumbot).
 
 For the speed tests a Python library called speedtest-cli is used to calculate download (Mbit/s), upload (Mbit/s), and ping (ms)
 
